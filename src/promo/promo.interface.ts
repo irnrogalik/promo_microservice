@@ -1,11 +1,17 @@
+import { PromocodeState } from './promocode.enum';
+
 export interface IPromoCode {
   id: string;
   name: string;
+  createdAt: string;
   percent: number;
-  isUsed: boolean;
+  currentState: PromocodeState;
   isOneTime: boolean;
+  usedDate: string;
   startDate: string;
   endDate: string;
+  deletedAt: string;
+  deletedReason: string;
 }
 
 export interface IAddPromoCode {
@@ -20,10 +26,20 @@ export interface IPromoCodeName {
   name: string;
 }
 
+export interface IRemovePromoCode {
+  name: string;
+  deletedReason: string;
+}
+
 export interface IPromoCodeBoolResponse {
   response: boolean;
 }
 
 export interface IPromocodeList {
   promocodes: IPromoCode[];
+}
+
+export interface IPageOptions {
+  page: number;
+  limit: number;
 }

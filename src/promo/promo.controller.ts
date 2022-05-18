@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 
-import type { IPromoCode, IPromocodeList, IPromoCodeName } from './promo.interface';
+import type { IPageOptions, IPromoCode, IPromocodeList, IPromoCodeName, IRemovePromoCode } from './promo.interface';
 import { IAddPromoCode, IPromoCodeBoolResponse } from './promo.interface';
 import { PromocodeService } from './promo.service';
 
@@ -10,9 +10,9 @@ export class PromocodeController {
   constructor(private readonly promoService: PromocodeService) {}
 
   @GrpcMethod('PromoCodeService', 'GetListOfPromocodes')
-  async getListOfPromocodes(): Promise<IPromocodeList> {
+  async getListOfPromocodes(pageOptions: IPageOptions): Promise<IPromocodeList> {
     const promocodes: IPromoCode[] =
-      await this.promoService.getListOfPromocodes();
+      await this.promoService.getListOfPromocodes(pageOptions);
     return { promocodes };
   }
 
@@ -23,8 +23,8 @@ export class PromocodeController {
   }
 
   @GrpcMethod('PromoCodeService', 'RemovePromoCode')
-  async removePromoCode(promocodeName: IPromoCodeName): Promise<IPromoCodeBoolResponse> {
-    const response: boolean = await this.promoService.removePromoCode(promocodeName);
+  async removePromoCode(promocode: IRemovePromoCode): Promise<IPromoCodeBoolResponse> {
+    const response: boolean = await this.promoService.removePromoCode(promocode);
     return { response: response };
   }
 
@@ -37,6 +37,12 @@ export class PromocodeController {
   @GrpcMethod('PromoCodeService', 'MarkPromoCodeAsUsed')
   async markPromoCodeAsUsed(promocodeName: IPromoCodeName): Promise<IPromoCodeBoolResponse> {
     const response: boolean = await this.promoService.markPromoCodeAsUsed(promocodeName);
+    return { response: response };
+  }
+
+  @GrpcMethod('PromoCodeService', 'IsPromoCodeExist')
+  async isPromoCodeExist(promocodeName: IPromoCodeName): Promise<IPromoCodeBoolResponse> {
+    const response: boolean = await this.promoService.isPromoCodeExist(promocodeName);
     return { response: response };
   }
 }

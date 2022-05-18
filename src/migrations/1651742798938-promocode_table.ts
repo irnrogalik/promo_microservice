@@ -5,20 +5,28 @@ export class promocodeTable1651742798938 implements MigrationInterface {
     await queryRunner.query(`
     CREATE TABLE IF NOT EXISTS promocode
     (
-        "id"        uuid              NOT NULL DEFAULT gen_random_uuid(),
-        "name"      character varying NOT NULL,
-        "percent"   INT               NOT NULL,
-        "isUsed"    BOOLEAN           DEFAULT FALSE,
-        "isOneTime" BOOLEAN           DEFAULT FALSE,
-        "startDate" character varying DEFAULT '',
-        "endDate"   character varying DEFAULT '',
+        "id"              uuid                NOT NULL DEFAULT gen_random_uuid(),
+        "createdAt"       TIMESTAMP           NOT NULL DEFAULT now(),
+        "name"            CHARACTER VARYING   NOT NULL,
+        "percent"         INT                 NOT NULL,
+        "currentState"    CHARACTER VARYING   NOT NULL, 
+        "isOneTime"       BOOLEAN             DEFAULT FALSE,
+        "usedDate"        TIMESTAMP           DEFAULT NULL,
+        "startDate"       TIMESTAMP           DEFAULT NULL,
+        "endDate"         TIMESTAMP           DEFAULT NULL,
+        "deletedAt"       TIMESTAMP           DEFAULT NULL,
+        "deletedReason"   CHARACTER VARYING   DEFAULT NULL, 
         PRIMARY KEY(id),
         CONSTRAINT name_unique UNIQUE (name)
     );
+    `);
+    await queryRunner.query(`
+      CREATE UNIQUE INDEX IF NOT EXISTS name_index ON promocode (name)
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query('DROP TABLE promocode;');
+    await queryRunner.query('DROP INDEX name_index;');
   }
 }
