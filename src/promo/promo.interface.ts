@@ -1,11 +1,8 @@
-import { PromocodeState } from './promocode.enum';
-
 export interface IPromoCode {
   id: string;
   name: string;
   createdAt: string;
   percent: number;
-  currentState: PromocodeState;
   isOneTime: boolean;
   usedDate: string;
   startDate: string;

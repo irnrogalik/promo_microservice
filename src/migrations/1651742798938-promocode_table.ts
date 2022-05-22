@@ -9,7 +9,6 @@ export class promocodeTable1651742798938 implements MigrationInterface {
         "createdAt"       TIMESTAMP           NOT NULL DEFAULT now(),
         "name"            CHARACTER VARYING   NOT NULL,
         "percent"         INT                 NOT NULL,
-        "currentState"    CHARACTER VARYING   NOT NULL, 
         "isOneTime"       BOOLEAN             DEFAULT FALSE,
         "usedDate"        TIMESTAMP           DEFAULT NULL,
         "startDate"       TIMESTAMP           DEFAULT NULL,

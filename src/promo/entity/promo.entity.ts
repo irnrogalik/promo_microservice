@@ -1,39 +1,35 @@
 import type { IPromoCode } from 'promo/promo.interface';
-import { PromocodeState } from 'promo/promocode.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'promocode' })
 export class PromocodeEntity implements IPromoCode {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
     id: string;
 
   @Column()
     name: string;
 
-  @Column()
+  @CreateDateColumn()
     createdAt: string;
 
   @Column()
     percent: number;
 
   @Column()
-    currentState: PromocodeState;
-
-  @Column()
     isOneTime: boolean;
 
   @Column()
-    usedDate: string;
+    usedDate: string | null;
 
   @Column()
-    startDate: string;
+    startDate: string | null;
 
   @Column()
-    endDate: string;
+    endDate: string | null;
+
+  @DeleteDateColumn()
+    deletedAt: string | null;
 
   @Column()
-    deletedAt: string;
-
-  @Column()
-    deletedReason: string;
+    deletedReason: string | null;
 }

@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { IAddPromoCode, IPageOptions, IPromoCode, IPromoCodeName, IRemovePromoCode } from './promo.interface';
 import { PromocodeRepository } from './promo.repository';
-import { PromocodeState } from './promocode.enum';
 
 @Injectable()
 export class PromocodeService {
@@ -36,7 +35,7 @@ export class PromocodeService {
 
   async isPromoCodeValid(promocodeName: IPromoCodeName): Promise<boolean> {
     const promocode: IPromoCode = await this.promocodeRepository.getPromoCodeByName(promocodeName);
-    if (promocode.currentState === PromocodeState.REMOVED) return false;
+    if (promocode.deletedAt !== null) return false;
     if (promocode.isOneTime) return promocode.usedDate === null ? true : false;
     if (promocode.startDate !== null && promocode.endDate !== null) {
       const now = new Date(Date.now());
