@@ -1,20 +1,21 @@
 import { plainToInstance } from 'class-transformer';
+import { Repository } from 'typeorm';
+import { EntityRepository } from 'typeorm/decorator/EntityRepository';
 
-import { appDataSource } from '../../data-source';
 import { PromocodeEntity } from './entity/promo.entity';
 import { IAddPromoCode, IPageOptions, IPromoCode, IPromoCodeName, IRemovePromoCode } from './promo.interface';
-
-export class PromocodeRepository {
+@EntityRepository(PromocodeEntity)
+export class PromocodeRepository extends Repository<PromocodeEntity> {
   async getListOfPromocodes(pageOptions: IPageOptions): Promise<PromocodeEntity[]> {
     const skip: number = (pageOptions.page - 1) * pageOptions.limit;
     const query = `SELECT * FROM promocode LIMIT ${pageOptions.limit} OFFSET ${skip}`;
 
-    const promocodes: PromocodeEntity[] = await appDataSource.query(query);
+    const promocodes: PromocodeEntity[] = await this.query(query);
     return plainToInstance(PromocodeEntity, promocodes);
   }
 
   async addPromoCode(promocode: IAddPromoCode): Promise<IPromoCode> {
-    const newPromocode: PromocodeEntity[] = await appDataSource.query(
+    const newPromocode: PromocodeEntity[] = await this.query(
         `INSERT INTO promocode (name, percent, "isOneTime", "startDate", "endDate")
           VALUES ($1, $2, $3, $4, $5) RETURNING *`,
         [
@@ -29,7 +30,7 @@ export class PromocodeRepository {
   }
 
   async removePromoCode(promocode: IRemovePromoCode): Promise<Boolean> {
-    const response = await appDataSource.query(
+    const response = await this.query(
         `UPDATE promocode
         SET
           "deletedAt" = now(),
@@ -41,7 +42,7 @@ export class PromocodeRepository {
   }
 
   async markPromoCodeAsUsed(promocodeName: IPromoCodeName): Promise<boolean> {
-    const response = await appDataSource.query(
+    const response = await this.query(
         `UPDATE promocode SET "usedDate" = now()
         WHERE name = $1 and "isOneTime" = true and "usedDate" is null
         RETURNING *`,
@@ -51,7 +52,7 @@ export class PromocodeRepository {
   }
 
   async getPromoCodeByName(promocodeName: IPromoCodeName): Promise<IPromoCode> {
-    const promocode = await appDataSource.query(
+    const promocode = await this.query(
         'SELECT * FROM promocode WHERE name = $1',
         [promocodeName.name],
     );

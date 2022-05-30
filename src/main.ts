@@ -2,12 +2,16 @@ import { NestFactory } from '@nestjs/core';
 import type { MicroserviceOptions } from '@nestjs/microservices';
 import { Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import {
+  initializeTransactionalContext,
+  patchTypeORMRepositoryWithBaseRepository,
+} from 'typeorm-transactional-cls-hooked';
 
-import { appDataSource } from '../data-source';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  await appDataSource.initialize();
+  initializeTransactionalContext();
+  patchTypeORMRepositoryWithBaseRepository();
 
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
       AppModule,
