@@ -1,15 +1,8 @@
-import dotenv from 'dotenv';
-
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 if (!(<any>module).hot /* for webpack HMR */) {
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 }
-
-dotenv.config({
-  path: `.${process.env.NODE_ENV}.env`,
-});
-
 
 module.exports = {
   type: 'postgres',
