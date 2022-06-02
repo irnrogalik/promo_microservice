@@ -45,4 +45,10 @@ export class PromocodeController {
     const response: boolean = await this.promoService.isPromoCodeExist(promocodeName);
     return { response: response };
   }
+
+  @GrpcMethod('PromoCodeService', 'GetPromocodeByName')
+  async getPromocodeByName(promocodeName: IPromoCodeName): Promise<IPromoCode> {
+    const promocode: IPromoCode = await this.promoService.getPromocodeByName(promocodeName);
+    return promocode;
+  }
 }

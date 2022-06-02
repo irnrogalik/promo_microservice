@@ -79,4 +79,13 @@ export class PromocodeService {
       throw new RpcException(e);
     }
   }
+
+  async getPromocodeByName(promocodeName: IPromoCodeName): Promise<IPromoCode> {
+    try {
+      const promocode: IPromoCode = await this.promocodeRepository.getPromoCodeByName(promocodeName);
+      return promocode;
+    } catch (e) {
+      throw new RpcException(e);
+    }
+  }
 }
