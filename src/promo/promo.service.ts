@@ -51,6 +51,7 @@ export class PromocodeService {
   async isPromoCodeValid(promocodeName: IPromoCodeName): Promise<boolean> {
     try {
       const promocode: IPromoCode = await this.promocodeRepository.getPromoCodeByName(promocodeName);
+      if (!promocode) return false;
       if (promocode.deletedAt !== null) return false;
       if (promocode.isOneTime) return promocode.usedDate === null ? true : false;
       if (promocode.startDate !== null && promocode.endDate !== null) {
@@ -80,7 +81,7 @@ export class PromocodeService {
     }
   }
 
-  async getPromocodeByName(promocodeName: IPromoCodeName): Promise<IPromoCode> {
+  async getPromoCodeByName(promocodeName: IPromoCodeName): Promise<IPromoCode> {
     try {
       const promocode: IPromoCode = await this.promocodeRepository.getPromoCodeByName(promocodeName);
       return promocode;

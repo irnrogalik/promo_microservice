@@ -46,9 +46,9 @@ export class PromocodeController {
     return { response: response };
   }
 
-  @GrpcMethod('PromoCodeService', 'GetPromocodeByName')
-  async getPromocodeByName(promocodeName: IPromoCodeName): Promise<IPromoCode> {
-    const promocode: IPromoCode = await this.promoService.getPromocodeByName(promocodeName);
+  @GrpcMethod('PromoCodeService', 'GetPromoCodeByName')
+  async getPromoCodeByName(promocodeName: IPromoCodeName): Promise<IPromoCode> {
+    const promocode: IPromoCode = await this.promoService.getPromoCodeByName(promocodeName);
     return promocode;
   }
 }
