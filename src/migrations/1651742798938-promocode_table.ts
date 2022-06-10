@@ -19,9 +19,6 @@ export class promocodeTable1651742798938 implements MigrationInterface {
         CONSTRAINT name_unique UNIQUE (name)
     );
     `);
-    await queryRunner.query(`
-      CREATE UNIQUE INDEX IF NOT EXISTS name_index ON promocode (name)
-    `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
