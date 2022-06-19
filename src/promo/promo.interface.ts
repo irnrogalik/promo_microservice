@@ -4,19 +4,19 @@ export interface IPromoCode {
   createdAt: string;
   percent: number;
   isOneTime: boolean;
-  usedDate: string;
-  startDate: string;
-  endDate: string;
-  deletedAt: string;
-  deletedReason: string;
+  usedDate?: string;
+  startDate?: string;
+  endDate?: string;
+  deletedAt?: string;
+  deletedReason?: string;
 }
 
 export interface IAddPromoCode {
   name: string;
   percent: number;
   isOneTime: boolean;
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface IPromoCodeName {
