@@ -52,7 +52,7 @@ export class PromocodeService {
     try {
       const promocode: IPromoCode = await this.promocodeRepository.getPromoCodeByName(promocodeName);
       if (!promocode) return false;
-      if (promocode.deletedAt !== null && promocode.deletedAt !== undefined) return false;
+      if (promocode.deletedAt) return false;
       if (promocode.isOneTime) return promocode.usedDate === null ? true : false;
       if (promocode.startDate !== null && promocode.endDate !== null) {
         const now = new Date(Date.now());
